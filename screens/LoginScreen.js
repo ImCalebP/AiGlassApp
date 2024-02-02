@@ -64,23 +64,11 @@ export default function LoginScreen() {
                     className="w-full" 
                     entering={FadeInDown.delay(400).duration(1000).springify()}>
                     <TouchableOpacity 
-                    className="w-full bg-sky-400 p-3 rounded-2xl mb-3"
-                     onPress={() => navigation.navigate('MainMenu')}>
-                     <Text className="text-xl font-bold text-white text-center">Login</Text>
-                     </TouchableOpacity>
-
-<<<<<<< HEAD
-                <Animated.View 
-                    className="w-full" 
-                    entering={FadeInDown.delay(400).duration(1000).springify()}>
-                    <TouchableOpacity 
                     className="w-full bg-purple-400 p-3 rounded-2xl mb-3"
                      onPress={() => navigation.navigate('MainMenu')}>
                      <Text className="text-xl font-bold text-white text-center">Login</Text>
                      </TouchableOpacity>
-=======
                 </Animated.View>
->>>>>>> parent of a799daf (setup for firebase authentication with alerts when account is created and logging in successfully)
 
                 <Animated.View 
                     entering={FadeInDown.delay(600).duration(1000).springify()} 
