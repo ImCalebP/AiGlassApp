@@ -18,8 +18,8 @@ export default function LoginScreen() {
         try {
             const response = await signInWithEmailAndPassword(auth, email, password)
             console.log(response)
+            //navigation.navigate('MainMenu')
             alert('check your email')
-            navigation.navigate('MainMenu')
         } catch(error) {
             console.log(error)
         }
@@ -90,7 +90,7 @@ export default function LoginScreen() {
                     entering={FadeInDown.delay(400).duration(1000).springify()}>
                     <TouchableOpacity 
                     className="w-full bg-purple-400 p-3 rounded-2xl mb-3"
-                     onPress={signInFn}>
+                     onPress={() => navigation.navigate('MainMenu')}>
                      <Text className="text-xl font-bold text-white text-center">Login</Text>
                      </TouchableOpacity>
 
