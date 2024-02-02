@@ -1,5 +1,6 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-firebase/app": "^18.8.0",
     "@react-native-firebase/app-check": "^18.8.0",
@@ -8,11 +9,18 @@
     "@react-navigation/native-stack": "^6.9.13",
     "expo": ">=49.0.0-0 <50.0.0",
     "expo-av": "~13.4.1",
+=======
+    "@react-navigation/native": "^6.1.7",
+    "@react-navigation/native-stack": "^6.9.13",
+    "@react-three/drei": "^9.97.0",
+    "@react-three/fiber": "^8.15.15",
+    "expo": ">=49.0.0-0 <50.0.0",
+>>>>>>> parent of a799daf (setup for firebase authentication with alerts when account is created and logging in successfully)
     "expo-file-system": "~15.4.5",
     "expo-gl": "~13.0.1",
     "expo-linear-gradient": "~12.3.0",
     "expo-status-bar": "~1.6.0",
-    "firebase": "^10.8.0",
+    "expo-three": "^7.0.0",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -24,7 +32,13 @@
     "react-native-screens": "~3.22.0",
     "react-native-video": "^5.2.1",
     "react-native-web": "~0.19.6",
+<<<<<<< HEAD
     "tailwindcss": "3.3.2"
+=======
+    "react-three-fiber": "^6.0.13",
+    "tailwindcss": "^3.3.2",
+    "three": "^0.160.1"
+>>>>>>> parent of a799daf (setup for firebase authentication with alerts when account is created and logging in successfully)
   },
   "devDependencies": {
     "@babel/core": "^7.19.3"
