@@ -9,6 +9,7 @@
     "expo-file-system": "~15.4.5",
     "expo-gl": "~13.0.1",
     "expo-status-bar": "~1.6.0",
+    "firebase": "^10.8.0",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
