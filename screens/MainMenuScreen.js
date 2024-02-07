@@ -115,20 +115,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 50, // Set the width of the logo
-    height: 50, // Set the height of the logo
-    marginRight: 10, // Add some margin between logo and text
+    width: 50, 
+    marginRight: 10, 
   },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
   },
   videoContainer: {
-    width: 600, // Adjust as needed
-    height: 200, // Adjust as needed
+    width: 600, 
+    height: 200, 
     position: 'relative',
     alignSelf: 'center',
-    marginTop: -5, // Add some space from the top elements
+    marginTop: -5, 
   },
   videoLargeWithOpacity: {
     width: '100%',
@@ -140,21 +139,21 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 20, // Adjust the height for border size
+    height: 20, 
   },
   menuContainer: {
     width: '90%',
     justifyContent: 'space-around',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 20, // Add some space from the video elements
+    marginTop: 20, 
   },
   menuItem: {
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
     width: '45%',
-    height: 200, // You may need to adjust this to fit the text
-    justifyContent: 'center', // Aligns children (Image and Text) in the center vertically
-    alignItems: 'center', // Aligns children (Image and Text) in the center horizontally
+    height: 200, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
     margin: 4,
     borderRadius: 35,
     elevation: 2,
@@ -162,26 +161,26 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    // Add padding at the bottom if necessary to avoid text being cut off
+    
     paddingBottom: 10,
   },
   menuImage: {
-    width: 100, // Adjust as needed
-    height: 100, // Adjust as needed
-    marginBottom: 30, // Add some space between the image and the text
+    width: 100, 
+    height: 100,
+    marginBottom: 30, 
   },
   menuItemText: {
-    color: '#474747', // Black text color
-    fontSize: 14, // Small font size for the text
-    fontWeight: 'bold', // Bold text weight
-    textAlign: 'center', // Center the text
+    color: '#474747', 
+    fontSize: 14, 
+    fontWeight: 'bold', 
+    textAlign: 'center', 
   },
   helloText: {
     color: 'gray',
-    fontSize: 16, // Smaller font size for 'Hello'
+    fontSize: 16, 
   },
   userNameText: {
-    fontSize: 30, // Larger font size for 'Charmie'
+    fontSize: 30, 
     fontWeight: 'bold',
   },
   signOutButton: {
@@ -191,16 +190,16 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.4)', // Semi-transparent white background
-    elevation: 2, // Only works on Android for drop shadow
-    shadowColor: '#000', // Only works on iOS for drop shadow
-    shadowOffset: { width: 0, height: 2 }, // Only works on iOS for drop shadow
-    shadowOpacity: 0.25, // Only works on iOS for drop shadow
-    shadowRadius: 3.84, // Only works on iOS for drop shadow
+    backgroundColor: 'rgba(255, 255, 255, 0.4)', 
+    elevation: 2, 
+    shadowColor: '#000', 
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25, 
+    shadowRadius: 3.84, 
   },
   signOutText: {
-    color: '#0000FF', // Black text color
-    fontSize: 12, // Small font size for the text
+    color: '#0000FF', 
+    fontSize: 12, 
   },
   
 });
