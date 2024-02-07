@@ -66,7 +66,7 @@ const MainMenuScreen = () => {
             />
             <Text style={styles.menuItemText}>Conversation History</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('LiveFeed')}>
             <Image
               source={require('../assets/images/message.png')}
               style={styles.menuImage}
