@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import { useNavigation } from '@react-navigation/native'
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { FIREBASE_AUTH } from '../config/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { sendSignInLinkToEmail, signInWithEmailAndPassword } from 'firebase/auth';
 
 
 export default function LoginScreen() {
@@ -18,10 +18,10 @@ export default function LoginScreen() {
         try {
             const response = await signInWithEmailAndPassword(auth, email, password)
             console.log(response)
-            alert('check your email')
-            navigation.navigate('MainMenu')
+            navigation.push('MainMenu')
         } catch(error) {
             console.log(error)
+            alert('Invalid username and password')
         }
     }
 

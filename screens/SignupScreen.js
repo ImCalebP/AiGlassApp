@@ -23,6 +23,7 @@ export default function SignupScreen() {
             navigation.navigate('Login')
         } catch(error) {
             console.log(error)
+            alert(error)
         }
     }
 
@@ -104,7 +105,7 @@ export default function SignupScreen() {
                 className="flex-row justify-center">
 
                 <Text>Already have an account? </Text>
-                <TouchableOpacity onPress={()=> navigation.push('Login')}>
+                <TouchableOpacity onPress={()=> navigation.goBack()}>
                     <Text className="text-sky-600">Login</Text>
                 </TouchableOpacity>
 
