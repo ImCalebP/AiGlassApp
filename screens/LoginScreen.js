@@ -31,19 +31,19 @@ export default function LoginScreen() {
             <StatusBar style="light" />
             <Image className="h-full w-full absolute" source={require('../assets/images/background.png')} />
 
-            {/* lights */}
-            <View className="flex-row justify-around w-full absolute">
-                <Animated.Image 
-                    entering={FadeInUp.delay(200).duration(1000).springify()} 
-                    source={require('../assets/images/light.png')} 
-                    className="h-[225] w-[90]" 
-                />
-                <Animated.Image 
-                    entering={FadeInUp.delay(400).duration(1000).springify()} 
-                    source={require('../assets/images/light.png')} 
-                    className="h-[160] w-[65] opacity-75" 
-                />
-            </View>
+        {/* lights */}
+        <View className="flex-row justify-around w-full absolute">
+            <Animated.Image 
+                entering={FadeInUp.delay(200).duration(1000).springify()} 
+                source={require('../assets/images/light.png')} 
+                className="h-[225] w-[90]" 
+            />
+            <Animated.Image 
+                entering={FadeInUp.delay(400).duration(1000).springify()} 
+                source={require('../assets/images/light.png')} 
+                className="h-[160] w-[65] opacity-75" 
+            />
+        </View>
 
             {/* title and form */}
             <View className="h-full w-full flex justify-around pt-40 pb-10">

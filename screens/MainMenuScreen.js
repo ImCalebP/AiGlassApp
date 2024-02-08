@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, ImageBackground, Image, Text } from 'react-native';
 import { Video } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native'; // Make sure to import useNavigation
+import { useNavigation } from '@react-navigation/native'; 
 
 
 const MainMenuScreen = () => {
@@ -42,7 +42,7 @@ const MainMenuScreen = () => {
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
           />
-          {/* You can add LinearGradient components for left and right borders if needed */}
+          {}
         </View>
 
         {/* Menu items */}
@@ -55,7 +55,10 @@ const MainMenuScreen = () => {
             />
             <Text style={styles.menuItemText}>Device Settings</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity 
+            style={styles.menuItem}
+            onPress={() => navigation.navigate('ConversationHistory')} // Add navigation to ConversationHistory screen
+          >
             <Image
               source={require('../assets/images/time-manager.png')}
               style={styles.menuImage}
@@ -199,7 +202,7 @@ const styles = StyleSheet.create({
     color: '#0000FF', // Black text color
     fontSize: 12, // Small font size for the text
   },
-  // Add any other styles you need here
+  
 });
 
 export default MainMenuScreen;
