@@ -57,7 +57,7 @@ const MainMenuScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.menuItem}
-            onPress={() => navigation.navigate('ConversationHistory')} // Add navigation to ConversationHistory screen
+            onPress={() => navigation.push('ConversationHistory')} // Add navigation to ConversationHistory screen
           >
             <Image
               source={require('../assets/images/time-manager.png')}
@@ -87,7 +87,7 @@ const MainMenuScreen = () => {
         {/* Sign Out Button */}
         <TouchableOpacity
           style={styles.signOutButton}
-          onPress={() => navigation.navigate('Login')} // Navigate to LoginScreen
+          onPress={() => navigation.push('Login')} // Navigate to LoginScreen
         >
           <Text style={styles.signOutText}>Sign Out</Text>
         </TouchableOpacity>
