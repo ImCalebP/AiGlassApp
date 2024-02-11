@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+
 const messages = [
   { id: '1', text: 'Yo Abi is great', timestamp: new Date(), isIncoming: true },
   { id: '2', text: 'Yeah dude he works well', timestamp: new Date(), isIncoming: false },
