@@ -55,7 +55,7 @@ const MainMenuScreen = () => {
             />
             <Text style={styles.menuItemText}>Device Settings</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.push('ConversationHistory')}>
             <Image
               source={require('../assets/images/time-manager.png')}
               style={styles.menuImage}
@@ -63,7 +63,7 @@ const MainMenuScreen = () => {
             />
             <Text style={styles.menuItemText}>Conversation History</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.push('LiveFeed')}>
             <Image
               source={require('../assets/images/message.png')}
               style={styles.menuImage}

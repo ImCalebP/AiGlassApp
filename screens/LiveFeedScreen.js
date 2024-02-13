@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   video: {
     width: '100%',
     height: '100%',
-    opacity: 0.5,
+    opacity: 0.8,
     borderRadius: 150,
   },
   backButton: {
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    opacity: 0.2, 
+    opacity: 0.15, 
   },
   messagesList: {
     position: 'absolute',
