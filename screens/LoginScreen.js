@@ -1,16 +1,35 @@
 import { View, Text, Image, SafeAreaView, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { useNavigation } from '@react-navigation/native'
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
+import { FIREBASE_AUTH } from '../config/firebase';
+import { sendSignInLinkToEmail, signInWithEmailAndPassword } from 'firebase/auth';
 
 
 export default function LoginScreen() {
-    const navigation = useNavigation();
-  return (
-    <View className="bg-white h-full w-full">
-        <StatusBar style="light" />
-        <Image className="h-full w-full absolute" source={require('../assets/images/background.png')} />
+    const navigation = useNavigation()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const auth = FIREBASE_AUTH
+
+    const signInFn = async () => {
+        try {
+            const response = await signInWithEmailAndPassword(auth, email, password)
+            console.log(response)
+            navigation.push('MainMenu')
+        } catch(error) {
+            console.log(error)
+            alert('Invalid username and password')
+        }
+    }
+
+
+    return (
+        <View className="bg-white h-full w-full">
+            <StatusBar style="light" />
+            <Image className="h-full w-full absolute" source={require('../assets/images/background.png')} />
 
         {/* lights */}
         <View className="flex-row justify-around w-full absolute">
@@ -26,61 +45,68 @@ export default function LoginScreen() {
             />
         </View>
 
-        {/* title and form */}
-        <View className="h-full w-full flex justify-around pt-40 pb-10">
-            
-            {/* title */}
-            <View className="flex items-center">
-                <Animated.Text 
-                    entering={FadeInUp.duration(1000).springify()} 
-                    className="text-white font-bold tracking-wider text-5xl">
-                        Login
-                </Animated.Text>
-            </View>
+            {/* title and form */}
+            <View className="h-full w-full flex justify-around pt-40 pb-10">
+                
+                {/* title */}
+                <View className="flex items-center">
+                    <Animated.Text 
+                        entering={FadeInUp.duration(1000).springify()} 
+                        className="text-white font-bold tracking-wider text-5xl">
+                            Login
+                    </Animated.Text>
+                </View>
 
-            {/* form */}
-            <View className="flex items-center mx-5 space-y-4">
-                <Animated.View 
-                    entering={FadeInDown.duration(1000).springify()} 
-                    className="bg-black/5 p-5 rounded-2xl w-full">
+                {/* form */}
+                <View className="flex items-center mx-5 space-y-4">
+                    <Animated.View 
+                        entering={FadeInDown.duration(1000).springify()} 
+                        className="bg-black/5 p-5 rounded-2xl w-full">
 
-                    <TextInput
-                        placeholder="Email"
-                        placeholderTextColor={'gray'}
-                    />
-                </Animated.View>
-                <Animated.View 
-                    entering={FadeInDown.delay(200).duration(1000).springify()} 
-                    className="bg-black/5 p-5 rounded-2xl w-full mb-3">
+                        <TextInput
+                            placeholder="Email"
+                            value={email}
+                            autoCapitalize='none'
+                            onChangeText={(text) => setEmail(text)}
+                            placeholderTextColor={'gray'}
+                        />
+                    </Animated.View>
+                    <Animated.View 
+                        entering={FadeInDown.delay(200).duration(1000).springify()} 
+                        className="bg-black/5 p-5 rounded-2xl w-full mb-3">
 
-                    <TextInput
-                        placeholder="Password"
-                        placeholderTextColor={'gray'}
-                        secureTextEntry
-                    />
-                </Animated.View>
+                        <TextInput
+                            placeholder="Password"
+                            value={password}
+                            autoCapitalize='none'
+                            onChangeText={(text) => setPassword(text)}
+                            placeholderTextColor={'gray'}
+                            secureTextEntry
+                        />
+                    </Animated.View>
 
                 <Animated.View 
                     className="w-full" 
                     entering={FadeInDown.delay(400).duration(1000).springify()}>
                     <TouchableOpacity 
                     className="w-full bg-purple-400 p-3 rounded-2xl mb-3"
-                     onPress={() => navigation.navigate('MainMenu')}>
+                     onPress={signInFn}>
                      <Text className="text-xl font-bold text-white text-center">Login</Text>
                      </TouchableOpacity>
-                </Animated.View>
 
-                <Animated.View 
-                    entering={FadeInDown.delay(600).duration(1000).springify()} 
-                    className="flex-row justify-center">
+                    </Animated.View>
 
-                    <Text>Don't have an account? </Text>
-                    <TouchableOpacity onPress={()=> navigation.push('Signup')}>
-                        <Text className="text-sky-600">SignUp</Text>
-                    </TouchableOpacity>
-                </Animated.View>
+                    <Animated.View 
+                        entering={FadeInDown.delay(600).duration(1000).springify()} 
+                        className="flex-row justify-center">
+
+                        <Text>Don't have an account? </Text>
+                        <TouchableOpacity onPress={()=> navigation.push('Signup')}>
+                            <Text className="text-sky-600">SignUp</Text>
+                        </TouchableOpacity>
+                    </Animated.View>
+                </View>
             </View>
         </View>
-    </View>
-  )
+    )
 }
