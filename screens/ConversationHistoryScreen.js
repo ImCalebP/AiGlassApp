@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+});
 
 
-const messages = [
+const messages1 = [
   { id: '1', text: 'Yo Abi is great', timestamp: new Date(), isIncoming: true },
   { id: '2', text: 'Yeah dude he works well', timestamp: new Date(), isIncoming: false },
   { id: '3', text: 'We have the best capstone project I hope we get a good mark', timestamp: new Date(), isIncoming: true },
@@ -51,6 +57,28 @@ const ConversationHistoryScreen = () => {
     );
   };
 
+  const [list, setList] = useState([]);
+  const messages = firebase.firestore().collection('messages');
+
+  useEffect(async () => {
+    messages
+    .onSnapshot(
+      querySnapshot => {
+        const list = []
+        querySnapshot.forEach((doc) => {
+          const {content, date, user} = doc.data()
+          list.push({
+            id: doc.id,
+            content,
+            date,
+            user,
+          })
+        })
+        setList(list)
+      }
+    )
+  }, [])
+
   return (
       <SafeAreaView style={styles.container}>
       {/* Custom Header */}
@@ -81,6 +109,14 @@ const ConversationHistoryScreen = () => {
     </SafeAreaView>
   );
 };
+
+
+
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container: {
