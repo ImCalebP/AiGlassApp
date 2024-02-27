@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-// import firestore from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 // import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 // import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 // const auth = initializeAuth(app, {
 //   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 // });
-import firebase from 'firebase/compat/app';
-import 'firebase/firestore';
+import firebase from 'firebase';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCEndAvwJXHEGMfsuli3uBByzJV--hmJ9g",
@@ -84,9 +83,9 @@ const ConversationHistoryScreen = () => {
         console.error('Error fetching messages: ', error);
       }
     };
-
+  
     fetchData();
-
+  
     // Cleanup function
     return () => {
       // Cleanup if necessary
