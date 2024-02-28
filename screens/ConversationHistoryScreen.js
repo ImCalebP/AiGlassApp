@@ -1,27 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import firestore from '@react-native-firebase/firestore';
+// import firestore from '@react-native-firebase/firestore';
 // import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 // import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 // const auth = initializeAuth(app, {
 //   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 // });
-import firebase from 'firebase';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCEndAvwJXHEGMfsuli3uBByzJV--hmJ9g",
-  authDomain: "ai-glass.firebaseapp.com",
-  projectId: "ai-glass",
-  storageBucket: "ai-glass.appspot.com",
-  messagingSenderId: "288383026522",
-  appId: "1:288383026522:web:c9c353a70cd766ca5adf63",
-  measurementId: "G-7DF8GYYKMB"
-};
-
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+import { FIREBASE_DB } from '../config/firebase';
+import { collection, doc, getDoc } from 'firebase/firestore';
 
 const messages1 = [
   { id: '1', text: 'Yo Abi is great', timestamp: new Date(), isIncoming: true },
@@ -76,9 +63,12 @@ const ConversationHistoryScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const snapshot = await firebase.firestore().collection('messages').get();
-        const fetchedData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setData(fetchedData);
+        const db = doc(FIREBASE_DB, 'messages', 'msg1');
+        const docSnap = await getDoc(db);
+        if(docSnap.exists()) {
+          const fetchedData = docSnap.data();
+          setData(fetchedData);
+        }
       } catch (error) {
         console.error('Error fetching messages: ', error);
       }
@@ -93,52 +83,52 @@ const ConversationHistoryScreen = () => {
   }, []);
 
 
-  // return (
-  //     <SafeAreaView style={styles.container}>
-  //     {/* Custom Header */}
-  //     <View style={styles.headerBar}>
-  //     <TouchableOpacity onPress={() => navigation.navigate('MainMenu')} style={styles.backButton}>
-  //         <Image
-  //           source={require('../assets/images/fleche-gauche.png')} // Adjust path as needed
-  //           style={styles.backButtonImage}
-  //           resizeMode="contain"
-  //         />
-  //       </TouchableOpacity>
-  //       <View style={styles.headerContent}>
-  //         <Image
-  //           source={require('../assets/images/logo.png')} 
-  //           style={styles.headerLogo}
-  //           resizeMode="contain"
-  //         />
-  //         <Text style={styles.headerTitle}>Conversation History</Text>
-  //       </View>
-  //     </View>
-      
-  //     <FlatList
-  //       data={messages1}
-  //       keyExtractor={(item) => item.id} 
-  //       renderItem={renderMessageItem}
-  //       inverted
-  //     />
-  //   </SafeAreaView>
-  // );
-
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Messages:</Text>
+      <SafeAreaView style={styles.container}>
+      {/* Custom Header */}
+      <View style={styles.headerBar}>
+      <TouchableOpacity onPress={() => navigation.navigate('MainMenu')} style={styles.backButton}>
+          <Image
+            source={require('../assets/images/fleche-gauche.png')} // Adjust path as needed
+            style={styles.backButtonImage}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+        <View style={styles.headerContent}>
+          <Image
+            source={require('../assets/images/logo.png')} 
+            style={styles.headerLogo}
+            resizeMode="contain"
+          />
+          <Text style={styles.headerTitle}>Conversation History</Text>
+        </View>
+      </View>
+      
       <FlatList
-        data={messages}
-        renderItem={({ item }) => (
-          <View style={{ marginBottom: 10 }}>
-            <Text>Content: {item.content}</Text>
-            <Text>Date: {item.date}</Text>
-            <Text>User: {item.user}</Text>
-          </View>
-        )}
-        keyExtractor={item => item.id}
+        data={data}
+        keyExtractor={(item) => item.id} 
+        renderItem={renderMessageItem}
+        inverted
       />
-    </View>
+    </SafeAreaView>
   );
+
+  // return (
+  //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //     <Text>Messages:</Text>
+  //     <FlatList
+  //       data={data}
+  //       renderItem={({ item }) => (
+  //         <View style={{ marginBottom: 10 }}>
+  //           <Text>Content: {item.content}</Text>
+  //           <Text>Date: {item.date}</Text>
+  //           <Text>User: {item.user}</Text>
+  //         </View>
+  //       )}
+  //       keyExtractor={item => item.id}
+  //     />
+  //   </View>
+  // );
 };
 
 
