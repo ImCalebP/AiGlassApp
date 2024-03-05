@@ -71,7 +71,7 @@ const MainMenuScreen = () => {
             />
             <Text style={styles.menuItemText}>Live Feed</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.push('AppSettings')}>
             <Image
               source={require('../assets/images/setting.png')}
               style={styles.menuImage}
