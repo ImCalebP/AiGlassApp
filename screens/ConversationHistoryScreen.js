@@ -1,61 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+// import firestore from '@react-native-firebase/firestore';
+// import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+// import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+// const auth = initializeAuth(app, {
+//   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+// });
 import { FIREBASE_DB } from '../config/firebase';
-import { 
-  collection, 
-  getDocs, 
-  doc, 
-  setDoc,
-} from '@firebase/firestore';
+import { collection, doc, getDoc } from 'firebase/firestore';
 
- async function getAllMessages() {
-  const allMessages = [];
-  try {
-    // console.log("Getting all messages...");
-    const db = FIREBASE_DB;
-    const conversationsRef = collection(db, "conversations");
-
-    const querySnapshot = await getDocs(conversationsRef);
-
-    
-    for (const conversationDoc of querySnapshot.docs) {
-      const conversationId = conversationDoc.id;
-      const conversationData = conversationDoc.data();
-      
-      // console.log("Conversation ID:", conversationId);
-      // console.log("Conversation Data:", conversationData);
-
-      const messagesRef = collection(conversationDoc.ref, "messages");
-      const messageSnapshot = await getDocs(messagesRef);
-
-      for (const messageDoc of messageSnapshot.docs) {
-        const messageId = messageDoc.id;
-        const messageData = messageDoc.data().content;
-        const messageRecord = {}
-      //  console.log("Message ID:", messageId);
-      //  console.log("Message Data:", messageData);
-      
-      messageRecord["id"] = messageId
-      messageRecord["text"] = messageData
-      messageRecord["timestamp"] = new Date(1000 * messageDoc.data()["date"]["seconds"])
-      messageRecord["isIncoming"] = true; 
-      allMessages.push(messageRecord);
-      }
-    }
-
-    
-  } catch (error) {
-    console.error("Error fetching messages:", error);
-    throw error; // Re-throw the error for further handling
-  }
- 
-  // console.log("All messages:", allMessages);
-
-  return allMessages;
-}
-
-const sampleMessages = [
+const messages1 = [
   { id: '1', text: 'Yo Abi is great', timestamp: new Date(), isIncoming: true },
   { id: '2', text: 'Yeah dude he works well', timestamp: new Date(), isIncoming: false },
   { id: '3', text: 'We have the best capstone project I hope we get a good mark', timestamp: new Date(), isIncoming: true },
@@ -72,62 +27,19 @@ const sampleMessages = [
   { id: '14', text: 'You can just use these message ID to load the text message from the data base I made it easy for you Steven and Abi', timestamp: new Date(), isIncoming: false },
   { id: '15', text: 'We could use the same style interface for live feed, maybe a live feed from camera aswell and live detection? or just text?', timestamp: new Date(), isIncoming: true },
   { id: '16', text: 'idk you tell me', timestamp: new Date(), isIncoming: false },
+  
+  // ... more messages
 ];
 
-/**
- * Uploads sample messages to the database.
- * TODO: When uploaded, conversations are not saved in the database. The documents do not exist, they will not appear in queries or snapshots.
- */
-function uploadSampleMessages() {
-
-  const db = FIREBASE_DB;
-  const rootCollectionRef = collection(db, "conversations");
-  const newConversationRef = doc(rootCollectionRef);
-  const messagesRef = collection(newConversationRef, "messages");
-  const navigation = useNavigation();
-
-  sampleMessages.forEach((message) => {
-    setDoc(doc(messagesRef), message)
-      .then(() => {
-        console.log("Message successfully written!");
-      })
-      .catch((error) => {
-        console.error("Error writing message: ", error);
-      });
-  }); 
-}
-
-
 const ConversationHistoryScreen = () => {
-
-const [messages, setMessages] = useState([]);
-const [isLoading, setIsLoading] = useState(false);
-const [error, setError] = useState(null);
-const [selectedMessageId, setSelectedMessageId] = useState(null);
- 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const fetchedMessages = await getAllMessages();
-        setMessages(fetchedMessages);
-      } catch (error) {
-        console.error("Error fetching messages:", error);
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData()
-  }, [messages]);
+  const navigation = useNavigation();
+  const [selectedMessageId, setSelectedMessageId] = useState(null);
 
   const renderMessageItem = ({ item }) => {
     const messageDate = item.timestamp.toLocaleDateString();
     const messageTime = item.timestamp.toLocaleTimeString();
     const isMessageSelected = selectedMessageId === item.id;
-    console.log("attempting to render message item...")
+
     return (
       <TouchableOpacity
         onPress={() => setSelectedMessageId(isMessageSelected ? null : item.id)}
@@ -146,8 +58,32 @@ const [selectedMessageId, setSelectedMessageId] = useState(null);
     );
   };
 
-  console.log("Messages:", messages); 
-  return ( 
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const db = doc(FIREBASE_DB, 'messages', 'msg1');
+        const docSnap = await getDoc(db);
+        if(docSnap.exists()) {
+          const fetchedData = docSnap.data();
+          setData(fetchedData);
+        }
+      } catch (error) {
+        console.error('Error fetching messages: ', error);
+      }
+    };
+  
+    fetchData();
+  
+    // Cleanup function
+    return () => {
+      // Cleanup if necessary
+    };
+  }, []);
+
+
+  return (
       <SafeAreaView style={styles.container}>
       {/* Custom Header */}
       <View style={styles.headerBar}>
@@ -165,19 +101,38 @@ const [selectedMessageId, setSelectedMessageId] = useState(null);
             resizeMode="contain"
           />
           <Text style={styles.headerTitle}>Conversation History</Text>
-          
         </View>
-      </View> 
+      </View>
       
       <FlatList
-        data={messages}
+        data={data}
         keyExtractor={(item) => item.id} 
-        renderItem={renderMessageItem} 
+        renderItem={renderMessageItem}
         inverted
       />
     </SafeAreaView>
   );
+
+  // return (
+  //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //     <Text>Messages:</Text>
+  //     <FlatList
+  //       data={data}
+  //       renderItem={({ item }) => (
+  //         <View style={{ marginBottom: 10 }}>
+  //           <Text>Content: {item.content}</Text>
+  //           <Text>Date: {item.date}</Text>
+  //           <Text>User: {item.user}</Text>
+  //         </View>
+  //       )}
+  //       keyExtractor={item => item.id}
+  //     />
+  //   </View>
+  // );
 };
+
+
+
 
 
 const styles = StyleSheet.create({
