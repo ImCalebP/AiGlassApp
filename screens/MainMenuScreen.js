@@ -47,7 +47,7 @@ const MainMenuScreen = () => {
 
         {/* Menu items */}
         <View style={styles.menuContainer}>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem}onPress={() => navigation.push('DeviceSettings')}>
             <Image
               source={require('../assets/images/virtual-reality.png')}
               style={styles.menuImage}
