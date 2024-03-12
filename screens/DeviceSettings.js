@@ -114,7 +114,7 @@ const [isDisplayPickerVisible, setDisplayPickerVisible] = useState(false);
 
 <View style={styles.buttonContainer}>
   <TouchableOpacity
-    onPress={() => navigation.navigate('MainMenu')}  // Adjust Password sent to database and name here , button handling is here
+    onPress={() => navigation.navigate('MainMenu')}  // Button style={styles.button} onPress={FunctionHandling For whatever you want the button to do}
     style={styles.confirmButton}
   >
     <Text style={styles.confirmButtonText}>Confirm</Text>
