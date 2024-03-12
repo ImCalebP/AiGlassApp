@@ -10,6 +10,7 @@ import ConversationHistoryScreen from './screens/ConversationHistoryScreen';
 import LiveFeedScreen from './screens/LiveFeedScreen';
 import LegalPage from './screens/LegalPage';
 import AppSettings from './screens/AppSettings';
+import DeviceSettings from './screens/DeviceSettings';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ function App() {
         <Stack.Screen name="LiveFeed" component={LiveFeedScreen} />
         <Stack.Screen name="LegalPage" component={LegalPage} />
         <Stack.Screen name="AppSettings" component={AppSettings} />
+        <Stack.Screen name="DeviceSettings" component={DeviceSettings} />
         </Stack.Navigator>
     </NavigationContainer>
   );
