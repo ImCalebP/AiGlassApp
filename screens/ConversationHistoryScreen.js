@@ -34,6 +34,8 @@ import {
         const messageData = messageDoc.data().content;
         const messageSender = messageDoc.data().sender;
         const messageRecord = {}
+        const messageIncoming = messageDoc.data().isIncoming;
+        
       //  console.log("Message ID:", messageId);
       //  console.log("Message Data:", messageData);
       
@@ -41,7 +43,11 @@ import {
       messageRecord["text"] = messageData
       messageRecord["sender"] = messageSender
       messageRecord["timestamp"] = new Date(1000 * messageDoc.data()["date"]["seconds"])
-      messageRecord["isIncoming"] = true; 
+      if (messageIncoming == true) {
+        messageRecord["isIncoming"] = true;
+      } else {
+        messageRecord["isIncoming"] = false;
+      }
       allMessages.push(messageRecord);
       }
     }
