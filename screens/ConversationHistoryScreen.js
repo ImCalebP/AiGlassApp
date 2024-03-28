@@ -24,10 +24,19 @@ async function getAllMessages() {
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
+      let timestamp;
+      // Check if the timestamp exists and is a Firestore Timestamp
+      if (data.timestamp && typeof data.timestamp.toDate === 'function') {
+        timestamp = data.timestamp.toDate(); // Firestore Timestamp object
+      } else {
+        // Handle cases where timestamp may not be a Firestore Timestamp object
+        // For example, if it's a string:
+        timestamp = new Date(data.timestamp || Date.now()); // Fallback to current time if timestamp is missing
+      }
       allMessages.push({
         id: doc.id,
         text: data.content,
-        timestamp: data.timestamp.toDate(), // Convert Firestore Timestamp to JavaScript Date object
+        timestamp: timestamp,
         isIncoming: data.isIncoming,
       });
     });
