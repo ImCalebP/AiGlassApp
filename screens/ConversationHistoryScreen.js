@@ -8,6 +8,7 @@ import {
   doc, 
   setDoc,
 } from '@firebase/firestore';
+import { query, orderBy } from '@firebase/firestore';
 
 async function getAllMessages() {
   const allMessages = [];
@@ -15,11 +16,12 @@ async function getAllMessages() {
     const db = FIREBASE_DB;
     // Reference to the 'messages' collection
     const messagesRef = collection(db, "messages");
+    // Create a query against the collection, ordered by timestamp
+    const messagesQuery = query(messagesRef, orderBy("timestamp", "desc"));
 
-    // Get all documents from the 'messages' collection
-    const querySnapshot = await getDocs(messagesRef);
+    // Execute the query
+    const querySnapshot = await getDocs(messagesQuery);
 
-    // Loop through the documents and add the data to the allMessages array
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       allMessages.push({
