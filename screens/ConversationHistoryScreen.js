@@ -9,89 +9,33 @@ import {
   setDoc,
 } from '@firebase/firestore';
 
- async function getAllMessages() {
+async function getAllMessages() {
   const allMessages = [];
   try {
-    // console.log("Getting all messages...");
     const db = FIREBASE_DB;
-    const conversationsRef = collection(db, "conversations");
+    // Reference to the 'messages' collection
+    const messagesRef = collection(db, "messages");
 
-    const querySnapshot = await getDocs(conversationsRef);
+    // Get all documents from the 'messages' collection
+    const querySnapshot = await getDocs(messagesRef);
 
-    
-    for (const conversationDoc of querySnapshot.docs) {
-      const conversationId = conversationDoc.id;
-      const conversationData = conversationDoc.data();
-      
-      // console.log("Conversation ID:", conversationId);
-      // console.log("Conversation Data:", conversationData);
-
-      const messagesRef = collection(conversationDoc.ref, "messages");
-      const messageSnapshot = await getDocs(messagesRef);
-
-      for (const messageDoc of messageSnapshot.docs) {
-        const messageId = messageDoc.id;
-        const messageData = messageDoc.data().content;
-        const messageSender = messageDoc.data().sender;
-        const messageRecord = {}
-        const messageIncoming = messageDoc.data().isIncoming;
-        
-      //  console.log("Message ID:", messageId);
-      //  console.log("Message Data:", messageData);
-      
-      messageRecord["id"] = messageId
-      messageRecord["text"] = messageData
-      messageRecord["sender"] = messageSender
-      messageRecord["timestamp"] = new Date(1000 * messageDoc.data()["date"]["seconds"])
-      if (messageIncoming == true) {
-        messageRecord["isIncoming"] = true;
-      } else {
-        messageRecord["isIncoming"] = false;
-      }
-      allMessages.push(messageRecord);
-      }
-    }
-
-    
+    // Loop through the documents and add the data to the allMessages array
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      allMessages.push({
+        id: doc.id,
+        text: data.content,
+        timestamp: data.timestamp.toDate(), // Convert Firestore Timestamp to JavaScript Date object
+        isIncoming: data.isIncoming,
+      });
+    });
   } catch (error) {
     console.error("Error fetching messages:", error);
-    throw error; // Re-throw the error for further handling
+    throw error;
   }
- 
-  // console.log("All messages:", allMessages);
 
   return allMessages;
 }
-
-const sampleMessages = [
-  { id: '1', text: 'Yo Abi is great', timestamp: new Date(), isIncoming: true },
-  { id: '2', text: 'Yeah dude he works well', timestamp: new Date(), isIncoming: false },
-  { id: '3', text: 'We have the best capstone project I hope we get a good mark', timestamp: new Date(), isIncoming: true },
-];
-
-/**
- * Uploads sample messages to the database.
- * TODO: When uploaded, conversations are not saved in the database. The documents do not exist, they will not appear in queries or snapshots.
- */
-function uploadSampleMessages() {
-
-  const db = FIREBASE_DB;
-  const rootCollectionRef = collection(db, "conversations");
-  const newConversationRef = doc(rootCollectionRef);
-  const messagesRef = collection(newConversationRef, "messages");
-  const navigation = useNavigation();
-
-  sampleMessages.forEach((message) => {
-    setDoc(doc(messagesRef), message)
-      .then(() => {
-        console.log("Message successfully written!");
-      })
-      .catch((error) => {
-        console.error("Error writing message: ", error);
-      });
-  }); 
-}
-
 
 const ConversationHistoryScreen = () => {
 
