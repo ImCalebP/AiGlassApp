@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   signOutText: {
     color: '#0000FF', // Black text color
-    fontSize: 12, // Small font size for the text
+    fontSize: 20, // Small font size for the text
   },
   // Add any other styles you need here
 });
