@@ -55,6 +55,17 @@ const AppSettings = () => {
           value={password}
         />
       </View>
+<View style={styles.inputContainer}>
+        <Text style={styles.inputLabel}>Set New Password:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm new password "
+          secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)} 
+          value={password}
+        />
+      </View>
+  
   
       {/* Notifications Toggle */}
       <View style={styles.toggleContainer}>
