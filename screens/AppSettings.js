@@ -56,7 +56,7 @@ const AppSettings = () => {
         />
       </View>
 <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Set New Password:</Text>
+        <Text style={styles.inputLabel}>Confirm New Password:</Text>
         <TextInput
           style={styles.input}
           placeholder="Confirm new password "
