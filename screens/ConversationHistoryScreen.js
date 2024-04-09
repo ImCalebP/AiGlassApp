@@ -49,7 +49,7 @@ async function getAllMessages() {
 }
 
 const ConversationHistoryScreen = () => {
-
+const navigation = useNavigation();
 const [messages, setMessages] = useState([]);
 const [isLoading, setIsLoading] = useState(false);
 const [error, setError] = useState(null);
