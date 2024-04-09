@@ -1,37 +1,83 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { FIREBASE_DB } from '../config/firebase';
+import { 
+  collection, 
+  getDocs,
+  doc, 
+  setDoc,
+} from '@firebase/firestore';
+import { query, orderBy } from '@firebase/firestore';
 
-const messages = [
-  { id: '1', text: 'Yo Abi is great', timestamp: new Date(), isIncoming: true },
-  { id: '2', text: 'Yeah dude he works well', timestamp: new Date(), isIncoming: false },
-  { id: '3', text: 'We have the best capstone project I hope we get a good mark', timestamp: new Date(), isIncoming: true },
-  { id: '4', text: 'Yeah hopefully TAs will like it', timestamp: new Date(), isIncoming: false },
-  { id: '5', text: 'Cheers,Caleb', timestamp: new Date(), isIncoming: true },
-  { id: '6', text: 'Miley Cyrus', timestamp: new Date(), isIncoming: false },
-  { id: '7', text: 'Zain pro VHDL', timestamp: new Date(), isIncoming: true },
-  { id: '8', text: 'Ben the goat', timestamp: new Date(), isIncoming: false },
-  { id: '9', text: 'CLICK ON MESSAGE TO SEE DATE/TIME IT WAS SENT ( TAKEN FROM ACTUAL LIVE DATE )', timestamp: new Date(), isIncoming: true },
-  { id: '10', text: 'Ok this is boring now im tireds of writing random stuff', timestamp: new Date(), isIncoming: false },
-  { id: '11', text: 'Caleb interface lol', timestamp: new Date(), isIncoming: true },
-  { id: '12', text: 'Hope yall like the front end', timestamp: new Date(), isIncoming: false },
-  { id: '13', text: 'Or I will cry', timestamp: new Date(), isIncoming: true },
-  { id: '14', text: 'You can just use these message ID to load the text message from the data base I made it easy for you Steven and Abi', timestamp: new Date(), isIncoming: false },
-  { id: '15', text: 'We could use the same style interface for live feed, maybe a live feed from camera aswell and live detection? or just text?', timestamp: new Date(), isIncoming: true },
-  { id: '16', text: 'idk you tell me', timestamp: new Date(), isIncoming: false },
-  
-  // ... more messages
-];
+async function getAllMessages() {
+  const allMessages = [];
+  try {
+    const db = FIREBASE_DB;
+    // Reference to the 'messages' collection
+    const messagesRef = collection(db, "messages");
+    // Create a query against the collection, ordered by timestamp
+    const messagesQuery = query(messagesRef, orderBy("timestamp", "desc"));
+
+    // Execute the query
+    const querySnapshot = await getDocs(messagesQuery);
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      let timestamp;
+      // Check if the timestamp exists and is a Firestore Timestamp
+      if (data.timestamp && typeof data.timestamp.toDate === 'function') {
+        timestamp = data.timestamp.toDate(); // Firestore Timestamp object
+      } else {
+        // Handle cases where timestamp may not be a Firestore Timestamp object
+        // For example, if it's a string:
+        timestamp = new Date(data.timestamp || Date.now()); // Fallback to current time if timestamp is missing
+      }
+      allMessages.push({
+        id: doc.id,
+        text: data.content,
+        timestamp: timestamp,
+        isIncoming: data.isIncoming,
+      });
+    });
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    throw error;
+  }
+
+  return allMessages;
+}
 
 const ConversationHistoryScreen = () => {
-  const navigation = useNavigation();
-  const [selectedMessageId, setSelectedMessageId] = useState(null);
+
+const [messages, setMessages] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState(null);
+const [selectedMessageId, setSelectedMessageId] = useState(null);
+ 
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const fetchedMessages = await getAllMessages();
+        setMessages(fetchedMessages);
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData()
+  }, [messages]);
 
   const renderMessageItem = ({ item }) => {
     const messageDate = item.timestamp.toLocaleDateString();
     const messageTime = item.timestamp.toLocaleTimeString();
     const isMessageSelected = selectedMessageId === item.id;
-
+    console.log("attempting to render message item...")
     return (
       <TouchableOpacity
         onPress={() => setSelectedMessageId(isMessageSelected ? null : item.id)}
@@ -50,7 +96,8 @@ const ConversationHistoryScreen = () => {
     );
   };
 
-  return (
+  console.log("Messages:", messages); 
+  return ( 
       <SafeAreaView style={styles.container}>
       {/* Custom Header */}
       <View style={styles.headerBar}>
@@ -68,18 +115,20 @@ const ConversationHistoryScreen = () => {
             resizeMode="contain"
           />
           <Text style={styles.headerTitle}>Conversation History</Text>
+          
         </View>
-      </View>
+      </View> 
       
       <FlatList
         data={messages}
         keyExtractor={(item) => item.id} 
-        renderItem={renderMessageItem}
+        renderItem={renderMessageItem} 
         inverted
       />
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
