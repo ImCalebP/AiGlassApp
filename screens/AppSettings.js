@@ -7,6 +7,7 @@ const AppSettings = () => {
   const navigation = useNavigation();
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [password1, setPassword1] = useState('');
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
  
@@ -61,8 +62,8 @@ const AppSettings = () => {
           style={styles.input}
           placeholder="Confirm new password "
           secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)} 
-          value={password}
+          onChangeText={(text) => setPassword1(text)} 
+          value={password1}
         />
       </View>
   
